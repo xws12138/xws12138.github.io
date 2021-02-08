@@ -17,7 +17,7 @@
   <meta name="description" content="大聪明与大明白">
   <meta name="author" content="xws">
   <meta name="keywords" content="前端">
-  <title>搭建 Hexo 博客 - xws12138</title>
+  <title>关于js高级的内容笔记 - xws12138</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="搭建 Hexo 博客">
+            <span class="h2" id="subtitle" title="关于js高级的内容笔记">
               
             </span>
 
@@ -172,7 +172,7 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-01-28 22:00" pubdate>
+      <time datetime="2021-01-28 20:33" pubdate>
         2021年1月28日 晚上
       </time>
     </span>
@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      0 字
+      1.8k 字
     </span>
   
 
@@ -194,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      21
        分钟
     </span>
   
@@ -224,24 +224,51 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">搭建 Hexo 博客</h1>
+            <h1 style="display: none">关于js高级的内容笔记</h1>
             
             <div class="markdown-body">
-              
+              <p>这是一篇个人总结的，关于js高级部分的知识点笔记。</p>
+<h2 id="js高级第一天"><a href="#js高级第一天" class="headerlink" title="js高级第一天"></a>js高级第一天</h2><h3 id="1-面向对象"><a href="#1-面向对象" class="headerlink" title="1.面向对象"></a>1.面向对象</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">一、面向对象编程 (OOP)<br>  把功能事务分解成一个个对象，通过对象之间的分工合作来完成<br><br>  ex: 把大象放进冰箱<br>  面向对象：1. 大象（走进去） 2. 冰箱（开关门）<br><br>  ex: 小明今天买了一本书<br>  面向对象: 1. 小明 2. 书<br><br>二、面向对象 [高内聚, 低耦合]  vs 面向过程<br>  面向对象：易于维护、拓展，耦合性低；适用场景：多人合作的复杂项目<br>  面向过程：不易于维护、拓展，耦合性高；适用场景：简单的功能模块<br></code></pre></td></tr></table></figure>
+<h3 id="2-类和对象"><a href="#2-类和对象" class="headerlink" title="2.类和对象"></a>2.类和对象</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash">  一、类（构造函数）和对象的概念<br>  类 (泛指一类事物)：比如运动员，把公共的特征提取出来，封装在一个模板中（姓名，年龄，身高，特长...）<br>  对象（特指一个具体事物）：把类进行实例化，得到的具体的对象 比如：<br><br>二、面向对象的思维角度<br>  ex: 小明今天买了一本 JS高级程序设计<br>  面向对象: <br><br>  不局限在某个具体的功能，而是抽取核心的公共特征（属性和方法），再创建能实现功能的对象<br><br>三、面向对象的三个特性<br>  1. 封装性：把公共的特征提取出来，封装在一个模板中<br>  2. 继承性：类进行实例化，得到的具体的对象<br>  3. 多态性：生成多个对象<br></code></pre></td></tr></table></figure>
+<h3 id="3-创建类和生成实例"><a href="#3-创建类和生成实例" class="headerlink" title="3.创建类和生成实例"></a>3.创建类和生成实例</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs bash">ES6 中使用 class 声明创建一个基于原型继承的具有指定名称的类<br>    一、如何定义一个类<br>      class 类名 &#123;<br>        // 构造函数: 定义公共的属性<br>        constructor (参数) &#123; <br>          this.属性名 = 属性值<br>        &#125;<br><br>        // 类方法: 定义公共的行为<br>        方法名1 (参数) &#123;  &#125;<br>        方法名2 (参数) &#123;  &#125;<br>      &#125;<br>     <br>     二、注意要点<br>      1. class 创建的类首字母还是要大写<br>      2. 类中的 constructor 构造函数, 接收 new 创建对象传递的参数，并返回实例对象（<span class="hljs-built_in">return</span> this）<br>      3. new 一个类时，自动调用构造函数方法，但不会自动调用类方法<br>      4. 类中的构造函数 和 类方法不需要加 <span class="hljs-keyword">function</span> （重点）<br>      5. 多个类方法之间不需要使用逗号隔开 (重点)<br><br>     三、大括号总结<br>      1. 函数体 <span class="hljs-function"><span class="hljs-title">fn</span></span> () &#123;&#125;<br>      2. 定义对象 var obj = &#123;&#125;<br>      3. 条件语法 <span class="hljs-function"><span class="hljs-title">if</span></span> () &#123;&#125;<br>      4. 定义一个类 class 类名 &#123;&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="4-类继承exetnds和super关键字"><a href="#4-类继承exetnds和super关键字" class="headerlink" title="4.类继承exetnds和super关键字"></a>4.类继承exetnds和super关键字</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs bash">1. 定义一个类（子类）通过 extends 继承父类上的方法和属性<br>   class 子类名 extends 父类 &#123;&#125;<br><br>   2. super 关键字可以访问和调用父类上的函数，包括构造函数和类方法<br><br>   注意：<br>   （1）子类调用方法时的查找顺序：先从子类上找再从父类上找<br>   （2）super 作为一个函数，可以调用父类的构造函数；作为一个对象，可以调用父类的方法<br><br>    ------------实例---------------------------------------------------------------------<br>       &lt;script&gt;<br>       // 1,创建一个 人类 People  class 创建的类首字母还是要大写<br>       class People &#123;<br>           // 类中的 constructor 构造函数, 接收 new 创建对象传递的参数，并返回实例对象<br>           constructor(name, age, height) &#123;<br>                   this.name = name<br>                   this.age = age<br>                   this.height = height<br>               &#125; // 多个类方法之间不需要使用逗号隔开 (重点)<br>               // 定义一个类方法<br>           sing(song) &#123;<br>               console.log(this.name + <span class="hljs-string">&#x27;唱了一首&#x27;</span> + song);<br>           &#125;<br>       &#125;<br>       // 2，创建一个学生类 作为 People的子类<br>       class Student extends People &#123; //用 extends 关键字 加 父类名 才能继承父类的构造方法和类方法<br>           constructor(name, age, height) &#123;<br>                   // 2.1 在构造函数中要想使用 this 必须调用 super()函数，可以直接把参数传给父类的构造方法去调用<br>                   super(name, age, height)<br>               &#125;<br>               // 如果子类没有方法 则直接用父类的<br>               // 如果子类有和父类名字相同的方法 会使用就近原则 执行子类的方法<br>           sing(song) &#123;<br>                   console.log(this.name + <span class="hljs-string">&#x27;跳了一支&#x27;</span> + song);<br>               &#125;<br>               // super还可以在子类的方法中 去调用父类的方法<br>           intro(song) &#123; //子类方法<br>               super.sing(song) //调用父类方法 sing 参数不能忘 song<br>               console.log(this.name + <span class="hljs-string">&#x27;拒绝唱跳&#x27;</span> + song);<br><br>           &#125;<br>       &#125;<br>       // 实例化子类 Student 创建 沈剑心这个对象<br>       var w = new Student(<span class="hljs-string">&#x27;沈剑心&#x27;</span>, 19, 170)<br>       var s = new Student(<span class="hljs-string">&#x27;李忘生&#x27;</span>, 60, 175)<br>       console.log(w, s);<br>       // 使用类方法 对象.方法名<br>       w.sing(<span class="hljs-string">&#x27;猪八戒&#x27;</span>)<br>       s.sing(<span class="hljs-string">&#x27;猪八戒&#x27;</span>)<br>       w.intro(<span class="hljs-string">&#x27;猪八戒&#x27;</span>)<br>       s.intro(<span class="hljs-string">&#x27;猪八戒&#x27;</span>)<br>   &lt;/script&gt;<br></code></pre></td></tr></table></figure>
+<h3 id="5-super必须放到this之前"><a href="#5-super必须放到this之前" class="headerlink" title="5.super必须放到this之前"></a>5.super必须放到this之前</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs bash">子类中注意的两点：<br>     1. 子类中使用 this 之前，必须要先调用 super<br><br>     2. 子类可以拓展自己的属性和方法<br><br> ------------实例---------------------------------------------------------------------<br>         &lt;script&gt;<br>       // 创造一个父类 Father<br>       class Father &#123;<br>           // 构造函数<br>           constructor(x, y) &#123;<br>                   this.x = x<br>                   this.y = y<br>               &#125;<br>               // 方法<br>           <span class="hljs-function"><span class="hljs-title">sing</span></span>() &#123;<br>               console.log(this.x + this.y);<br>           &#125;<br>       &#125;<br>       // 创造一个子类 Son<br>       class Son extends Father &#123; //获取父类<br>           constructor(x, y, z) &#123; //多一个参数 z <br>               super(x, y) //只传入 x, y<br>               this.z = z //this 必须在 suoer 下面<br>           &#125;<br>           <span class="hljs-function"><span class="hljs-title">sing</span></span>() &#123; //子类的方法 与父类方法同名会就近原则调用子类的<br>               console.log(this.x + this.y + this.z); //自己的方法<br>           &#125;<br>       &#125;<br>       //实例化子类 Son<br>       var w = new Son(10, 20, 30)<br>       w.sing() //调用子类方法 sing 子类方法比父类多一位 z 所以结果是 60<br>           // -------------------------------------------------------------------------------------------------------------------<br>           // 实例化父类 Father<br>       var a = new Father(10, 20, 30) //虽然传了三个参数 但是父类方法只有 x y 两个参数运算 所以第三个传与不传 都不会运算 <br>           // 调用父类方法 与子类同名的 sing<br>       a.sing()<br>   &lt;/script&gt;<br></code></pre></td></tr></table></figure>
+<h3 id="6-使用类的两个要点"><a href="#6-使用类的两个要点" class="headerlink" title="6.使用类的两个要点"></a>6.使用类的两个要点</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">一、使用类的两个注意事项<br>  1. 声明 class 类不存在变量提升，先定义再使用<br>  2. 在类中访问属性和方法，必须加 this<br></code></pre></td></tr></table></figure>
+<h3 id="7-类中的this指向问题"><a href="#7-类中的this指向问题" class="headerlink" title="7.类中的this指向问题"></a>7.类中的this指向问题</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs bash">&lt;script&gt;<br>      // 定义一个全局变量 that<br>      var that<br>      class Foo &#123;<br>          constructor(x, y) &#123;<br>              // 默认指向创建出来的实例对象<br>              console.log(this);<br>              // 把 this 赋值给 that<br>              that = this<br>              this.x = x<br>              this.y = y<br>              this.btn = document.querySelector(<span class="hljs-string">&#x27;button&#x27;</span>) //获取按钮<br>                  //为按钮绑定点击事件，要使用类中的属性和方法前面必须加 this<br>                  //注意: 1.此时 getsum 函数是通过 btn 按钮来调用的 所以 getsum 里面的 this 指向 btn 按钮 按钮里面 没有 x y 所以是空<br>              this.btn.addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>, this.getsum)<br>          &#125;<br>          <span class="hljs-function"><span class="hljs-title">getsum</span></span>() &#123;<br>              console.log(that); //这里打印的就是 实例对象 而不是 getaum 函数的调用者<br>              console.log(this.x + this.y);<br><br>          &#125;<br>      &#125;<br>      // 创建实例对象 constructor 里面的 this 指向的是 obj 实例对象<br>      var obj = new Foo(1, 2)<br>          // 2. 使用 obj 去调用 getsum 函数 使用 this 指向 obj  obj 实例对象里面有 x y 所以可以执行<br>      obj.getsum()<br>  &lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>date: 2021-01-28 22:00:00<br>tags: [blog, hello]</p>
+<hr>
+
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/blog/">blog</a>
-                    
-                      <a class="hover-with-bg" href="/tags/hello/">hello</a>
-                    
-                  </div>
                 
               </div>
               
