@@ -1,0 +1,436 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;dark&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.new.png">
+  <link rel="icon" type="image/png" href="/img/favicon.new.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="大聪明与大明白">
+  <meta name="author" content="xws">
+  <meta name="keywords" content="前端">
+  <title>sql相关命令 - xws12138</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"xws12138.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>xws12138</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.webp') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="sql相关命令">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-02-24 20:19" pubdate>
+        2021年2月24日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      19
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">sql相关命令</h1>
+            
+            <div class="markdown-body">
+              <p>这是一篇个人总结的，关于 sql 相关命令的笔记。</p>
+<h2 id="什么是-sql"><a href="#什么是-sql" class="headerlink" title="什么是 sql"></a>什么是 sql</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs sql">一、什么是 <span class="hljs-keyword">SQL</span>?<br>  <span class="hljs-keyword">SQL</span> 的全称是 Structured Query <span class="hljs-keyword">Language</span>, 即结构化的查询语言, 专门用来访问和处理数据库的编程语言<br><br>二、<span class="hljs-keyword">SQL</span> 的关键特点<br>  (<span class="hljs-number">1</span>) <span class="hljs-keyword">SQL</span> 是一门数据库编程语言<br>  (<span class="hljs-number">2</span>) 使用 <span class="hljs-keyword">SQL</span> 语言编写出来的代码, 叫做 <span class="hljs-keyword">SQL</span> 语句<br>  (<span class="hljs-number">3</span>) <span class="hljs-keyword">SQL</span> 语言只能在关系型数据库中使用, 非关系型的数据库不支持<br><br>三、<span class="hljs-keyword">SQL</span> 语言的作用<br>  可以实现数据库中所有的增删改查操作<br>  <span class="hljs-number">1.</span> 从数据库表中查询数据<br>  <span class="hljs-number">2.</span> 从数据库表中插入新的数据<br>  <span class="hljs-number">3.</span> 从数据库表中更新数据<br>  <span class="hljs-number">4.</span> 从数据库表中删除数据<br>  <span class="hljs-number">5.</span> 建表, 建库...<br></code></pre></td></tr></table></figure>
+<h2 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h2><figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">一、SQL 语句<br>     (1) 查询数据 <span class="hljs-keyword">select</span><br>     (<span class="hljs-number">2</span>) 插入数据 <span class="hljs-keyword">insert</span><br>     (<span class="hljs-number">3</span>) 更新数据 <span class="hljs-keyword">update</span><br>     (<span class="hljs-number">4</span>) 删除数据 <span class="hljs-keyword">delete</span><br><br>   二、查询数据语法<br>     <span class="hljs-number">1.</span> 从指定表中查出所有列的数据<br>     <span class="hljs-symbol">`SELECT * FROM 表名称`</span><br><br>     <span class="hljs-number">2.</span> 从指定表中查出指定列的数据<br>     <span class="hljs-symbol">`SELECT 列名称 FROM 表名称`</span><br><br>     多条语句可以一块执行，需要在每一条语句结束后加 ; 即可<br></code></pre></td></tr></table></figure>
+<h2 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs sql">一、插入数据的语法<br>  向指定的数据表中插入一条数据<br>  `<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> 表名称(列<span class="hljs-number">1</span>, 列<span class="hljs-number">2</span>, ...) <span class="hljs-keyword">VALUES</span>(值<span class="hljs-number">1</span>, 值<span class="hljs-number">2</span>, ...)`<br><br>  注意: 多个列和值之间使用逗号隔开, 列和值的顺序要保持一致<br>  多条语句可以一块执行，需要在每一条语句结束后加 ; 即可<br><br>  <span class="hljs-operator">&lt;</span><span class="hljs-operator">!</span><span class="hljs-comment">-- </span><br>  大小写无所谓<br>  譬如 <span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> users (username, password) <span class="hljs-keyword">values</span> (<span class="hljs-string">&#x27;tony stark&#x27;</span>, <span class="hljs-string">&#x27;098123&#x27;</span>)<br>  向 users 表的 username 列 和 password 列里面插入数据 数据的值分别为 username 是 tony stark; password 是 <span class="hljs-number">098123</span> 一一对应<br>  <span class="hljs-comment">--&gt;</span><br><br></code></pre></td></tr></table></figure>
+
+<h2 id="更新数据"><a href="#更新数据" class="headerlink" title="更新数据"></a>更新数据</h2><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">  一、更新数据语法<br>    更新数据表中的某一列或多列数据<br>    `<span class="hljs-keyword">UPDATE</span> 表名称 <span class="hljs-keyword">SET</span> 列<span class="hljs-number">1</span>=值<span class="hljs-number">1</span>, 列<span class="hljs-number">2</span>=值<span class="hljs-number">2</span> <span class="hljs-keyword">WHERE</span> 列名称=值;`<br><br>  注意: <span class="hljs-keyword">SET</span> 后多列数据更新使用逗号隔开, <span class="hljs-keyword">WHERE</span> 后面跟的条件不能省略 <br>  多条语句可以一块执行，需要在每一条语句结束后加 ; 即可<br>&lt;/pre&gt;<br><br>  &lt;!<span class="hljs-comment">-- </span><br>        注意，一定要指定更新的目标, 比如 <span class="hljs-keyword">where</span> id=<span class="hljs-number">4</span> 就是更新 id为 <span class="hljs-number">4</span> 的用户的  <span class="hljs-keyword">password</span><br>        将 id 为 <span class="hljs-number">4</span> 的用户的密码更新为 <span class="hljs-number">888888</span><br>        <span class="hljs-keyword">update</span> users <span class="hljs-keyword">set</span> <span class="hljs-keyword">password</span>=<span class="hljs-string">&#x27;888888&#x27;</span> <span class="hljs-keyword">where</span> id=<span class="hljs-number">4</span><br><br>        或者  <span class="hljs-keyword">where</span> username=<span class="hljs-string">&#x27;xm&#x27;</span> 表示我们要修改用户名 username 为 xm 的 密码 <span class="hljs-keyword">password</span><br>        将 username 为 xm 的用户的密码更新为 <span class="hljs-number">888888</span><br>        <span class="hljs-keyword">update</span> users <span class="hljs-keyword">set</span> <span class="hljs-keyword">password</span>=<span class="hljs-string">&#x27;888888&#x27;</span> <span class="hljs-keyword">where</span> username=<span class="hljs-string">&#x27;xm&#x27;</span><br><br><br>        查看<br>        <span class="hljs-keyword">select</span> <span class="hljs-keyword">password</span> <span class="hljs-keyword">from</span> users; <br><br><br>        同时更新多列数据<br>        更新 id 为<span class="hljs-number">2</span>的用户，把密码更新为 admin123 同时把用户状态更新为 <span class="hljs-number">1</span> <br>        <span class="hljs-keyword">update</span> users <span class="hljs-keyword">set</span> <span class="hljs-keyword">password</span>=<span class="hljs-string">&#x27;admin123&#x27;</span>,status=<span class="hljs-string">&#x27;1&#x27;</span> <span class="hljs-keyword">where</span> id=<span class="hljs-number">2</span><br>        <span class="hljs-keyword">select</span> <span class="hljs-keyword">password</span>, status <span class="hljs-keyword">from</span> users;<br> <span class="hljs-comment">--&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+<h2 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h2><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs applescript">一、删除数据语法<br>     删除数据表中的某一行或多行数据<br>     `DELETE FROM 表名称 WHERE 列名称=值;`<br><br>   &lt;!<span class="hljs-comment">-- </span><br>     删除 users 表中 <span class="hljs-built_in">id</span> 为 <span class="hljs-number">4</span> 的用户<br>     注意，这是一条非常危险的语句，在执行删除语句是，一定不要忘了限定条件 <span class="hljs-keyword">where</span> 否则会删除整个表，牢底坐穿！！ <br>     删除的 <span class="hljs-keyword">where</span> 条件是可以自己指定的，<br>     比如删除 <span class="hljs-built_in">id</span> 为 <span class="hljs-number">3</span> 的  <span class="hljs-built_in">id</span>=<span class="hljs-number">3</span><br>     或者删除 <span class="hljs-built_in">id</span> 大于 <span class="hljs-number">3</span> 的，那么所有 <span class="hljs-built_in">id</span> 大于 <span class="hljs-number">3</span> 的都会被删除<br><br>     删除 <span class="hljs-built_in">id</span> 为 <span class="hljs-number">4</span> 的数据<br>     delete <span class="hljs-keyword">from</span> users <span class="hljs-keyword">where</span> <span class="hljs-built_in">id</span>=<span class="hljs-number">4</span>;<br><br>     查看<br>     select password, status <span class="hljs-keyword">from</span> users;<br>  <span class="hljs-comment">--&gt;</span><br></code></pre></td></tr></table></figure>
+<h2 id="WHERE-子句的作用"><a href="#WHERE-子句的作用" class="headerlink" title="WHERE 子句的作用"></a>WHERE 子句的作用</h2><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">一、<span class="hljs-keyword">WHERE</span> 子句的作用<br>    如果需要有条件的从表中选取数据, 可以使用 <span class="hljs-keyword">WHERE</span> 子句添加到 <span class="hljs-keyword">SQL</span> 语句的末尾<br>  例如: <br>    `<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> 表名称 <span class="hljs-keyword">WHERE</span> 列名称 运算符 值`<br><br>  二、常见的运算符<br>    (<span class="hljs-number">1</span>) &gt; 和 &gt;= <br>    (<span class="hljs-number">2</span>) &lt; 和 &lt;=<br>    (<span class="hljs-number">3</span>) != 或 &lt;&gt;<br>    (<span class="hljs-number">4</span>) =<br>    (<span class="hljs-number">5</span>) <span class="hljs-keyword">BETWEEN</span><br>    (<span class="hljs-number">6</span>) <span class="hljs-keyword">LIKE</span><br><br>    &lt;!<span class="hljs-comment">-- </span><br>          演示 <span class="hljs-keyword">where</span> 子句的使用<br>          查询 status 状态为 <span class="hljs-number">1</span> 的用户  <br>          <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> users <span class="hljs-keyword">where</span> status=<span class="hljs-number">1</span>  <br><br>          <br>          查询 id 大于 <span class="hljs-number">2</span> 的用户 <br>          <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> users <span class="hljs-keyword">where</span> id&gt;<span class="hljs-number">1</span>  <br>          <br>          <br>          查询 id 不等于 <span class="hljs-number">2</span> 的用户<br>          <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> users <span class="hljs-keyword">where</span> id!=<span class="hljs-number">1</span> <br><br><br>          查询 id 为 <span class="hljs-number">1</span> 到 <span class="hljs-number">3</span> 之间的所有 用户 (包含 <span class="hljs-number">1</span>和<span class="hljs-number">3</span>)<br>          <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> users <span class="hljs-keyword">where</span> id <span class="hljs-keyword">between</span> <span class="hljs-number">1</span> <span class="hljs-keyword">and</span> <span class="hljs-number">3</span><br><br>          查询 用户名中包含 z 的用户 只要有一个 z 就能找到<br>          <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> users <span class="hljs-keyword">where</span> username <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;%z%&#x27;</span><br>    <span class="hljs-comment">--&gt;</span><br></code></pre></td></tr></table></figure>
+<h2 id="AND-和-OR-运算符"><a href="#AND-和-OR-运算符" class="headerlink" title="AND 和 OR 运算符"></a>AND 和 OR 运算符</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs routeros">一、<span class="hljs-keyword">AND</span> 和 <span class="hljs-keyword">OR</span> 运算符<br>   可以在 WHERE 子句中把多个条件结合起来, <span class="hljs-keyword">AND</span> 表示并且, <span class="hljs-keyword">OR</span> 表示或者的意思<br><br>   &lt;!-- <br><br>     使用 <span class="hljs-keyword">and</span> 来显示所有状态为1并且id小于3的用户<br>     select * <span class="hljs-keyword">from</span><span class="hljs-built_in"> users </span>where <span class="hljs-attribute">status</span>=1 <span class="hljs-keyword">and</span> id&lt;3<br><br>     <span class="hljs-keyword">and</span> 与 <span class="hljs-keyword">or</span> 都可以多次判断<br>     使用 <span class="hljs-keyword">and</span> 来显示所有状态为1并且id小于3再并且用户名为ls的用户<br>     select * <span class="hljs-keyword">from</span><span class="hljs-built_in"> users </span>where <span class="hljs-attribute">status</span>=1 <span class="hljs-keyword">and</span> id&lt;3 <span class="hljs-keyword">and</span> <span class="hljs-attribute">username</span>=<span class="hljs-string">&#x27;ls&#x27;</span><br><br>     使用 <span class="hljs-keyword">or</span> 来显示所有状态为1或者用户名为zs的用户<br>     select * <span class="hljs-keyword">from</span><span class="hljs-built_in"> users </span>where <span class="hljs-attribute">status</span>=1 <span class="hljs-keyword">or</span> <span class="hljs-attribute">username</span>=zs<br><br>    --&gt;<br></code></pre></td></tr></table></figure>
+
+<h2 id="ORDER-BY-子句"><a href="#ORDER-BY-子句" class="headerlink" title="ORDER BY 子句"></a>ORDER BY 子句</h2><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">一、使用 <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> 子句对结果进行排序<br>     `<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> users <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> status <span class="hljs-keyword">DESC</span>;`<br><br>     默认的排序方式为升序 <span class="hljs-keyword">ASC</span>, 如果使用降序可以添加 <span class="hljs-keyword">DESC</span> 关键字<br><br>     &lt;!<span class="hljs-comment">-- </span><br>       对users表中的数据，按照 statys 字段进行升序排序  在status 后面加上 <span class="hljs-keyword">asc</span> 就是升序排序 默认就是升序，但是建议写完整 <br>       <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> users <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> status <span class="hljs-keyword">asc</span> <br><br>       对users表中的数据，按照 id 字段进行降序排序  在 id 后面加上 <span class="hljs-keyword">desc</span> 表示降序排序<br>       <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> users <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> id <span class="hljs-keyword">desc</span><br>     <span class="hljs-comment">--&gt;</span><br><br>   二、多重排序规则<br>     `<span class="hljs-keyword">SELECT</span> 列名称 <span class="hljs-keyword">FROM</span> 表名称 <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> 列名称 [排序规则],  列名称 [排序规则]`<br>     &lt;!<span class="hljs-comment">-- </span><br>      对 <span class="hljs-keyword">user</span> 表中的数据，先按照 status 进行降序排序，再按照 username 字母的顺序，进行升序的排序<br>      <span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> users <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> status <span class="hljs-keyword">desc</span>, username <span class="hljs-keyword">asc</span><br>     <span class="hljs-comment">--&gt;</span><br><br>   三、注意<br>     同时使用 <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> 和 <span class="hljs-keyword">WHERE</span>子句时, 应该让 <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> 位于 <span class="hljs-keyword">WHERE</span> 之后, 否则将会产生错误<br>     &lt;!<span class="hljs-comment">-- </span><br>       查询表中 id 值大于 <span class="hljs-number">1</span> 的用户，结果根据 id 降序来排列 (先 <span class="hljs-keyword">where</span> 后 <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span>)<br>       elect * <span class="hljs-keyword">from</span> users <span class="hljs-keyword">where</span> id&gt;<span class="hljs-number">1</span> <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> id <span class="hljs-keyword">desc</span><br>      <span class="hljs-comment">--&gt;</span><br><br>   四、实际工作中，大多数是根据日期进行排序<br></code></pre></td></tr></table></figure>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/02/22/%E6%A8%A1%E5%9D%97%E7%9A%84%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">
+                        <span class="hidden-mobile">模块的加载机制</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>
