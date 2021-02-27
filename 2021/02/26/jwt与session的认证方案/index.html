@@ -1,0 +1,431 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;dark&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.new.png">
+  <link rel="icon" type="image/png" href="/img/favicon.new.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="大聪明与大明白">
+  <meta name="author" content="xws">
+  <meta name="keywords" content="前端">
+  <title>session 与 jwt 的认证方案 - xws12138</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"xws12138.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>xws12138</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.webp') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="session 与 jwt 的认证方案">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-02-26 21:40" pubdate>
+        2021年2月26日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      35
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">session 与 jwt 的认证方案</h1>
+            
+            <div class="markdown-body">
+              <p>这是一篇个人总结的，关于 session 与 jwt 的认证方案 的笔记。</p>
+<h2 id="首先，这个要从-http-协议的无状态性说起"><a href="#首先，这个要从-http-协议的无状态性说起" class="headerlink" title="首先，这个要从 http 协议的无状态性说起"></a>首先，这个要从 http 协议的无状态性说起</h2><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">这个要从 <span class="hljs-keyword">http</span> 协议的无状态性说起<br>HTTP 协议的特点<br>HTTP 本身是一个无状态的协议, 它不会记录每次发送请求的用户信息, 这会导致服务器无法识别哪个用户发送了请求<br><br>如何解决上述的问题<br>可以借助 cookie 和 session 两种技术来存储用户的状态<br></code></pre></td></tr></table></figure>
+<h2 id="什么是-cookie-呢？"><a href="#什么是-cookie-呢？" class="headerlink" title="什么是 cookie 呢？"></a>什么是 cookie 呢？</h2><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs gcode">Cookie 是存储在用户浏览器的一段不超过 <span class="hljs-number">4</span>KB 的字符串, 它是由一个名称<span class="hljs-comment">(Name)</span> 和 值<span class="hljs-comment">(Value)</span> 以及其他几个<br>用于控制 Cookie 有效期, 安全性, 使用范围的可选属性组成的<br><br>Cookie 的作用?<br>不用域名下的 Cookie 信息是独立的, 每当客户端发送请求时, 会自动把当前域名下所有未过期的 Cookie<br>添加到请求头, 一同发送到服务器<br><br>Cookie 的特性<br>      <span class="hljs-comment">(1)</span> 自动发送<br>      <span class="hljs-comment">(2)</span> 域名独立 <span class="hljs-comment">(不能跨域)</span><br>      <span class="hljs-comment">(3)</span> 过期时限<br>      <span class="hljs-comment">(4)</span> <span class="hljs-number">4</span> KB限制 <span class="hljs-comment">(了解即可)</span><br><br>Cookie 的工作机制<br>      客户端<span class="hljs-comment">(浏览器)</span>第一次发送请求到服务器, 服务器会以响应头的形式向浏览器写入 Cookie 保存,<br>      之后浏览器每次发送请求到服务器都会自动将 Cookie 以请求头的形式发送过去<br><br>    Cookie的更多操作: https:<span class="hljs-comment">//www.runoob.com/js/js-cookies.html</span><br></code></pre></td></tr></table></figure>
+<h2 id="Cookie-技术的缺点"><a href="#Cookie-技术的缺点" class="headerlink" title="Cookie 技术的缺点"></a>Cookie 技术的缺点</h2><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">一、Cookie 技术的缺点<br>      Cookie 是存储在浏览器端的, 并且浏览器本身提供了读写 Cookie 的方法, 因此 Cookie 信息很容易被窃取和伪造,<br>    重要的隐私信息不建议存放在 Cookie 中<br>    <br>    二、如何解决上述的缺点<br>      使用 <span class="hljs-keyword">Session</span> 方案, 用户的状态信息在服务器生成和存储, 浏览器只负责保留一个 sessionID 秘钥, 每次发送请求<br>    时携带这个 sessionID 到服务器, 服务器根据这个唯一的 id 值查询对应的用户信息进行返回<br>    也就是数据不是直接发给客户端，而是只发送一个秘钥，数据是存在于服务端的，客户端登录时，只需要发送这个秘钥，返回这个唯一的秘钥对应的信息<br>    Cookie 里面存在的是 sessionID 秘钥，用户的真实信息 <span class="hljs-keyword">Session</span> 是一直存在于服务端<br></code></pre></td></tr></table></figure>
+<h2 id="session-的不足之处"><a href="#session-的不足之处" class="headerlink" title="session 的不足之处"></a>session 的不足之处</h2><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">一、Session 认证的局限性<br>   SessionID 需要配合 cookie  才能实现，由于 Cookie默认不支持跨域访问，所以，当涉及到前端跨域请求后端接口的时候，<br>   需要做很多额外的配置，才能实现 Session 认证。<br><br><br> 二、如何解决上述的缺点<br>   当前端跨域请求后端接口时, 推荐使用 <span class="hljs-keyword">JWT </span>这种认证方式, 没有和 Cookie 的绑定关系<br><br><br> 三、什么是 <span class="hljs-keyword">JWT </span>(<span class="hljs-keyword">JSON </span>Web Token)?<br>   基于token的鉴权机制, 是前端目前最流行的跨域认证解决方案<br><br></code></pre></td></tr></table></figure>
+<h2 id="session-的使用"><a href="#session-的使用" class="headerlink" title="session 的使用"></a>session 的使用</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 注意，以下代码并非完整，只是将重要的几个步骤写出来</span><br><span class="hljs-comment">// 先下载 express-session 包 与 express 包</span><br><br><span class="hljs-comment">// 1.导入 express 模块 与 引入 express-session 包</span><br><span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;express&#x27;</span>)<br><span class="hljs-keyword">const</span> session = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;express-session&#x27;</span>)<br><span class="hljs-comment">// 2.配置 Session 中间件</span><br>app.use(session(&#123;<br>    <span class="hljs-comment">// 加密的秘钥</span><br>    secret: <span class="hljs-string">&#x27;12138&#x27;</span>,<br>    <span class="hljs-comment">// 下面两个是固定写法</span><br>    resave: <span class="hljs-literal">false</span>,<br>    saveUninitialized: <span class="hljs-literal">true</span>,<br>    <span class="hljs-comment">// cookie: &#123; secure: true &#125; //这个是 https 使用的，http 必须去掉</span><br>    <span class="hljs-comment">// 设置 cookie 的过期时间 一个小时后过期</span><br>    expires: <span class="hljs-string">&#x27;1h&#x27;</span><br>&#125;))<br><br><span class="hljs-comment">// 3.将登录成功后的用户信息，保存到 Session 中</span><br><span class="hljs-comment">// 注意: 只有成功配置了 express-session 这个中间件，才能通过 req 点出来 session 这个属性</span><br><span class="hljs-comment">// 如果用户名密码都正确 则请将登录成功后的用户信息，保存到 Session 中</span><br>req.session.user = req.body <span class="hljs-comment">//req.body 里面就是请求体的数据</span><br>req.session.isLogin = <span class="hljs-literal">true</span> <span class="hljs-comment">//用户的登录状态， true 表示登录</span><br><span class="hljs-built_in">console</span>.log(req.session.user); <span class="hljs-comment">//用户的账号密码</span><br><br> <span class="hljs-comment">// 4.从 Session 中获取用户的名称，响应给客户端</span><br>    <span class="hljs-comment">// 判断用户是否登录</span><br>    <span class="hljs-keyword">if</span> (req.session.isLogin != <span class="hljs-literal">true</span>) &#123; <span class="hljs-comment">//不为 true 则代表没有登录</span><br>        <span class="hljs-keyword">return</span> res.send(&#123; <span class="hljs-attr">status</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;没有登录！&#x27;</span> &#125;)<br>    &#125;<br><br>    <span class="hljs-comment">// 如果已经登录,返回登录的信息，用户名为 req.session.user.username 里面获取到的用户名</span><br>    res.send(&#123; <span class="hljs-attr">status</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;获取用户名成功&#x27;</span>, <span class="hljs-attr">username</span>: req.session.user.username &#125;)<br><br> <span class="hljs-comment">// 5.清空 Session 信息</span><br>    <span class="hljs-comment">// destroy() 方法，注意:调用 destroy 方法，只会清空当前用户的 session 信息, 不会清除其他用户的 session 信息</span><br>    <span class="hljs-comment">// 错误情况</span><br>    <span class="hljs-comment">// 300 代表从缓存里找的数据</span><br>    <span class="hljs-comment">// 404 客户端出错(地址，参数什么的错了) 极少数情况下是服务端出错(没有接口之类的)</span><br>    <span class="hljs-comment">// 500 服务端报错</span><br>    req.session.destroy() <span class="hljs-comment">//当前用户的 session 信息已销毁</span><br>    res.send(&#123; <span class="hljs-attr">status</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;退出成功！&#x27;</span> &#125;)<br>        <span class="hljs-comment">// 一旦退出，就算你再去输入原来的 sessionid 秘钥，也无法直接登录到首页，所以就防止了伪造秘钥的行为</span><br><br></code></pre></td></tr></table></figure>
+<h2 id="jwt-的认证机制"><a href="#jwt-的认证机制" class="headerlink" title="jwt 的认证机制"></a>jwt 的认证机制</h2><figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs gauss">什么是 <span class="hljs-built_in">JWT</span> (JSON Web <span class="hljs-built_in">Token</span>)?<br>      基于<span class="hljs-built_in">token</span>的鉴权机制, 是前端目前最流行的跨域认证解决方案<br>注意: 当前端请求后端接口不存在跨域问题的时候，推荐使用 Session 身份认证机制<br>      当前端需要跨域请求后端接口的时候，不推荐使用 Session 身份认证机制，推荐使用 JWT 认证机制<br><br><br>  一、JWT 的认证机制<br>      用户信息通过加密签名后 <span class="hljs-built_in">token</span> 字符串的形式, 保存在客户端浏览器中. 服务器通过解密客户端传来的 <span class="hljs-built_in">token</span> 字符串<br>    来认证用户的身份<br>    <br>    二、JWT 的组成部分<br>      通常由三部分组成, 使用英文符号.进行分隔: Header.Payload.Signature<br>      <span class="hljs-built_in">Header</span>: 头部<br>      Payload: 有效荷载, 这里存放的是经过加密后的用户信息<br>      Signature: 签名<br>    <br>    三、JWT 使用方式<br>      <span class="hljs-number">1.</span>服务端签发 <span class="hljs-built_in">TOKEN</span> 到客户端后, 可以存储到 localStorage 中, <br>      <span class="hljs-number">2.</span>每次发送请求前都要带上这个 <span class="hljs-built_in">TOKEN</span>, 推荐放在 HTTP 请求头的 Authorization 字段中 (大事件项目中处理方式一致)s<br></code></pre></td></tr></table></figure>
+<h2 id="jws-的使用"><a href="#jws-的使用" class="headerlink" title="jws 的使用"></a>jws 的使用</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><code class="hljs js">    <span class="hljs-comment">// 在 Node.js项目中使用 JWT: </span><br>    <span class="hljs-comment">// 1. 先安装 JWT 包</span><br>    <span class="hljs-comment">// `npm  i jsonwebtoken express-jwt`</span><br><br>    <span class="hljs-comment">// 说明: jsonwebtoken 用于生成 Token 字符串信息;</span><br>    <span class="hljs-comment">//       express-jwt 用于把 Token 字符串解析为 JSON 对象</span><br><span class="hljs-comment">// --------------------------------------------------------------------------------</span><br>    <span class="hljs-comment">// TODO_01：安装并导入 JWT 相关的两个包，分别是 jsonwebtoken 和 express-jwt</span><br>    <span class="hljs-comment">// jsonwebtoken 这个包是 加密生成 token 令牌</span><br>        <span class="hljs-keyword">const</span> jwt = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;jsonwebtoken&#x27;</span>)<br><br>    <span class="hljs-comment">// express-jwt 这个包是负责把 请求头中的 token 解密出来</span><br>        <span class="hljs-keyword">const</span> jwtParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;express-jwt&#x27;</span>)<br><span class="hljs-comment">// --------------------------------------------------------------------------------</span><br><span class="hljs-comment">// 2 定义 secret 秘钥</span><br><span class="hljs-comment">// 为了保证 jwt 字符串的安全，防止 jwt 字符串在网络传输中被人破解，我们需要专门定义一个用于加密和解密的 secret 密钥</span><br><span class="hljs-comment">// 当我们生成 jwt 字符串的时候，需要使用 secret 密钥对用的信息进行加密，最终得到加密好的 jwt 字符串</span><br><span class="hljs-comment">// 当把 jwt 字符串解析还原成 JSON 对象的时候，需要使用 secret 密钥进行解密</span><br><span class="hljs-comment">// 定义 secret 秘钥</span><br><span class="hljs-keyword">const</span> secretKey = <span class="hljs-string">&#x27;itheima No1 ^_^&#x27;</span><br><span class="hljs-comment">// --------------------------------------------------------------------------------</span><br><span class="hljs-comment">// 登录成功</span><br>    <span class="hljs-comment">// TODO_03：在登录成功之后，调用 jwt.sign() 方法生成 JWT 字符串。并通过 token 属性发送给客户端</span><br>    <span class="hljs-comment">// 使用 jwt 包提供的 sign 方法, 这个方法要接收三个参数</span><br>    <span class="hljs-comment">// 参数1 用户的信息对象, 这里是 &#123; username: userinfo.username &#125;</span><br>    <span class="hljs-comment">// 参数2 加密的密钥 secretKey 前面定义的密钥的名称</span><br>    <span class="hljs-comment">// 参数3 配置对象，可以配置当前 token 的有效期 &#123; expiresin: &#x27;30s&#x27; &#125; 有效期为 30s，30s后这个 token 将失效</span><br>    <span class="hljs-comment">// 注意,这里只把用户名加密到了 token, 千万不要把密码加密到 token 中，否则会很危险</span><br>    <span class="hljs-keyword">const</span> str = jwt.sign(&#123; <span class="hljs-attr">username</span>: userinfo.username &#125;, secretKey, &#123; <span class="hljs-attr">expiresin</span>: <span class="hljs-string">&#x27;30s&#x27;</span> &#125;)<br><span class="hljs-comment">// --------------------------------------------------------------------------------</span><br><span class="hljs-comment">// TODO_04：注册将 JWT 字符串解析还原成 JSON 对象的中间件</span><br><span class="hljs-comment">// app.use()注册中间件</span><br><span class="hljs-comment">// expressJWT()这个中间件来解密 token 密钥</span><br><span class="hljs-comment">// 配置对象 &#123; secret: secretKey &#125; secert 这个属性用来指定解密的密钥 用 secretKey 密钥来解密密钥 secretKey 就是我们定义的密钥名称</span><br><span class="hljs-comment">// 新的 jwt 需要手动指定算法，不然会报错 为 algorithms 属性指定算法即可 algorithms: [&quot;HS256&quot;] 算法</span><br><span class="hljs-comment">// 在 .unless()方法里面指定一个配置对象，配置对象里面有一个path属性，来指定哪些接口不需要访问权限</span><br><span class="hljs-comment">// path 里面写一个数组，数组里是正则表达式，来匹配出不需要访问权限的接口(比如登录页面，不需要权限，任何用户都可以访问)</span><br>app.use(expressJWT(&#123; <span class="hljs-attr">secret</span>: secretKey &#125;).unless(&#123; <span class="hljs-attr">path</span>: [<span class="hljs-regexp">/^\/api\//</span>] &#125;)) <span class="hljs-comment">//凡是以 /api 开头的，都不需要访问权限</span><br><span class="hljs-comment">// 当我们的 express-jwt这个中间件配置成功以后，即可在那些有权限的接口中，使用 req.user对象，来访问从 JWT 字符串中解析出来的用户信息了</span><br><br><span class="hljs-comment">// --------------------------------------------------------------------------------</span><br><span class="hljs-comment">// 利用 postman 来试验</span><br><span class="hljs-comment">// 1.先发送一个 post 请求，地址就是登陆的地址 http://127.0.0.1:8888/api/login (是不需要访问权限的)</span><br><span class="hljs-comment">// 在Body里面发送 x-www-form-urlencoded 格式的请求 输入用户名 username: admin 和密码 password: 000000</span><br><span class="hljs-comment">// 然后就会获得一串加密后的 token 字符串 因为设定了有效期30s，所以这个 token 字符串，30s 后就失效了</span><br>&#123;<br>    <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-number">200</span>,<br>    <span class="hljs-string">&quot;message&quot;</span>: <span class="hljs-string">&quot;登录成功！&quot;</span>,<br>    <span class="hljs-string">&quot;token&quot;</span>: <span class="hljs-string">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjE0Mzk2MTMyLCJleHAiOjE2MTQzOTYxNjJ9.JfJBIXndzF_aTYbTliJx7AB5mI75Fb2YGGl2R9dQjM0&quot;</span><br>&#125;<br><br><span class="hljs-comment">// 2.发送 get 请求 获取 token 令牌对应的用户数据</span><br><span class="hljs-comment">// get 请求的地址为 http://127.0.0.1:8888/admin/getinfo (这是一个需要 token 权限的接口)</span><br><span class="hljs-comment">// 发送 get 请求的时候，需要一个认证的请求头</span><br><span class="hljs-comment">// 在 Headers 里面发送一个请求头 Authorization 这个请求头的值为刚才获得的加密的 token 字符串(一定要快，只有 30s 有效期)</span><br><span class="hljs-comment">// 在值前面加上一个固定的 Bearer , (固定写法)</span><br><span class="hljs-comment">//  然后点击 send 发送请求, 获得当前用户的信息</span><br>&#123;<br>    <span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-number">200</span>,<br>    <span class="hljs-string">&quot;message&quot;</span>: <span class="hljs-string">&quot;获取用户信息成功！&quot;</span>,<br>    <span class="hljs-string">&quot;data&quot;</span>: &#123;<br>        <span class="hljs-string">&quot;username&quot;</span>: <span class="hljs-string">&quot;admin&quot;</span>,<br>        <span class="hljs-string">&quot;iat&quot;</span>: <span class="hljs-number">1614397945</span>,<br>        <span class="hljs-string">&quot;exp&quot;</span>: <span class="hljs-number">1614397975</span><br>    &#125;<br>&#125;<br><span class="hljs-comment">// 在生成 token 的是，填充了什么属性，最终解析出来的，就是这个属性和值，</span><br><span class="hljs-comment">// 然后我们可以在有权限的接口中，来访问到解析出来的用户信息，不要填密码，否则会被解析出来</span><br><span class="hljs-comment">// 注意：其中 lat 与 exp 为token的有效期设置，不用管</span><br><span class="hljs-comment">// 使用 req.user 获取用户信息</span><br><span class="hljs-comment">// 这是一个有权限的 API 接口</span><br>app.get(<span class="hljs-string">&#x27;/admin/getinfo&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>&#123;<br>    <span class="hljs-comment">// TODO_05：使用 req.user 获取用户信息，并使用 data 属性将用户信息发送给客户端</span><br>    <span class="hljs-built_in">console</span>.log(req.user);<br><br>    res.send(&#123;<br>        status: <span class="hljs-number">200</span>,<br>        message: <span class="hljs-string">&#x27;获取用户信息成功！&#x27;</span>,<br>        data: req.user, <span class="hljs-comment">// 要发送给客户端的用户信息</span><br>    &#125;)<br>&#125;)<br><br><span class="hljs-comment">// --------------------------------------------------------------------------------</span><br><span class="hljs-comment">// 捕获错误问题</span><br><span class="hljs-comment">// TODO_06：使用全局错误处理中间件，捕获解析 JWT 失败后产生的错误</span><br><span class="hljs-comment">// 当我们使用 express-jwt 解析 Token 字符串时，如果客户端发送过来的 Token 字符串过期或者不合法，会产生一个解析失败的错误</span><br><span class="hljs-comment">// 影响项目的正常运行，我们可以通过 Express 错误中间件，捕获这个错误并且进行相关的处理</span><br>app.use(<span class="hljs-function">(<span class="hljs-params">err, req, res, next</span>) =&gt;</span> &#123;<br>    <span class="hljs-comment">// 如果错误条件成立，说明这次错误是由于 token 解析失败导致的 (不合法或者过期了)</span><br>    <span class="hljs-comment">// UnauthorizedError</span><br>    <span class="hljs-keyword">if</span> (err.name === <span class="hljs-string">&#x27;UnauthorizedError&#x27;</span>) &#123;<br>        <span class="hljs-keyword">return</span> res.send(&#123;<br>            status: <span class="hljs-number">401</span>,<br>            message: <span class="hljs-string">&#x27;无效的token！&#x27;</span><br>        &#125;)<br>    &#125;<br><br>    <span class="hljs-comment">// 如果错误条件不成立，说明这次错误是未知的</span><br>    res.send(&#123;<br>        status: <span class="hljs-number">500</span>,<br>        message: <span class="hljs-string">&#x27;未知的错误！&#x27;</span><br>    &#125;)<br><br>&#125;)<br></code></pre></td></tr></table></figure>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/02/24/sql%E8%AF%AD%E5%8F%A5/">
+                        <span class="hidden-mobile">sql相关命令</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>
